@@ -70,4 +70,13 @@ A RESTful API built with Node.js, Express, and MongoDB to manage users, books, a
 
    ```bash
    git clone https://github.com/yourusername/book-review-api.git
-   cd book-review-api
+   
+
+   ```
+2 . Run 
+    ```
+    node index.js
+   ```
+
+![Screenshot (381)](https://github.com/user-attachments/assets/c77ac10a-64de-412b-929b-32aa13bf8e7e)
+
