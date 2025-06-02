@@ -69,7 +69,7 @@ A RESTful API built with Node.js, Express, and MongoDB to manage users, books, a
 1. Clone the repository
 
    ```
-   git clone https://github.com/yourusername/book-review-api.git
+   git clone https://github.com/Ajitwaman980/Billeasy-Assignment-Book-Review-API-Node.js-.git
    
     node index.js
    ```
