@@ -7,6 +7,8 @@ import {
   deletebook,
   searchBooks,
 } from "../controller/book.controller.js";
+
+// auth and isower middleware
 import { authmiddleware } from "../middleware/auth.js";
 import { isBookOwner } from "../middleware/isbookowner.js";
 
@@ -18,7 +20,7 @@ const router = express.Router();
 router.get("/searchbooks", authmiddleware, searchBooks);
 
 // all books
-router.get("/allbooks", authmiddleware, allbooks);
+router.get("/allbooks", allbooks);
 
 // new book create
 router.post("/newbook", authmiddleware, rateLimiting, newbook);

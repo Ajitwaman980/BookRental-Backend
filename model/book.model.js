@@ -10,11 +10,32 @@ const bookSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    author: {
+    authorName: {
+      type: String,
+      required: true,
+    },
+    Owner: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",
       required: true,
     },
+    description: {
+      type: String,
+      required: true,
+    },
+    city: {
+      type: String,
+      required: true,
+    },
+    pricePerDay: {
+      type: Number,
+      required: true,
+    },
+    isAvailable: {
+      type: Boolean,
+      default: true,
+    },
+
     reviews: [
       {
         type: mongoose.Schema.Types.ObjectId,
@@ -22,10 +43,6 @@ const bookSchema = new mongoose.Schema(
       },
     ],
 
-    description: {
-      type: String,
-      required: true,
-    },
     price: {
       type: Number,
       required: true,

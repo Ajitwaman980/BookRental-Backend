@@ -10,9 +10,11 @@ export const allbooks = async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 3;
     const skip = (page - 1) * limit;
+
+    //  to get data using find
     const allbookes = await bookmodel
       .find()
-      .populate("author", "username ")
+      .populate("Owner", "username")
       .populate("reviews", "rating comment");
 
     if (!allbookes) {
@@ -29,14 +31,27 @@ export const allbooks = async (req, res) => {
 // new book
 export const newbook = async (req, res) => {
   try {
-    const { title, description, price } = req.body;
+    const {
+      title,
+      description,
+      authorName,
+      city,
+      pricePerDay,
+      isAvailable,
+      price,
+    } = req.body;
+
     const usrid = req.user.id;
 
     const newbook = new bookmodel({
       title,
       description,
-      author: usrid,
+      Owner: usrid,
       price,
+      authorName,
+      city,
+      pricePerDay,
+      isAvailable,
     });
 
     // save
@@ -58,9 +73,7 @@ export const getbookbyid = async (req, res) => {
   try {
     const bookid = req.params.id;
 
-    const book = await bookmodel
-      .findById(bookid)
-      .populate("author", "username");
+    const book = await bookmodel.findById(bookid).populate("Owner", "username");
 
     if (!book) {
       return res.json({ message: "Book not found" });
@@ -76,11 +89,12 @@ export const getbookbyid = async (req, res) => {
 export const updatebook = async (req, res) => {
   try {
     const bookid = req.params.id;
-    const { title, description, price } = req.body;
+    const { title, description, price, city, pricePerDay, isAvailable } =
+      req.body;
 
     const updatedbook = await bookmodel.findByIdAndUpdate(
       bookid,
-      { title, description, price },
+      { title, description, price, pricePerDay, city, isAvailable },
       { new: true }
     );
 
@@ -118,22 +132,27 @@ export const deletebook = async (req, res) => {
 
 export const searchBooks = async (req, res) => {
   try {
-    const { query } = req.query;
-    if (!query) {
-      return res.json({ message: "query required" });
+    const { title, city } = req.query;
+    // const { city } = req.body;
+    const filter = {};
+    console.log(filter);
+
+    if (title) {
+      filter.title = new RegExp(title, "i");
     }
-    // regex
-    const regex = new RegExp(query, "i");
-    // search
-    const books = await bookmodel
-      .find({ title: regex })
-      .populate("author", "username");
+
+    if (city) {
+      filter.city = new RegExp(city, "i");
+    }
+
+    const books = await bookmodel.find(filter).populate("Owner", "username");
+
     if (books.length === 0) {
       return res.json({ message: "No books found" });
     }
     res.json(books);
   } catch (error) {
     console.error("Error searching books:", error);
-    res.json({ error: "Failed to search books" });
+    res.json({ error: "Failed to search books or book not avaliable sorry " });
   }
 };

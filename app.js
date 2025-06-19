@@ -5,6 +5,7 @@ import { configDotenv } from "dotenv";
 import userRouter from "./routes/user.router.js";
 import bookRouter from "./routes/book.router.js";
 import reviewRouter from "./routes/review.router.js";
+import bookRentRouter from "./routes/bookrent.router.js";
 
 configDotenv();
 
@@ -22,5 +23,6 @@ app.get("/", (req, res) => {
 app.use("/api/user", userRouter);
 app.use("/api/book", bookRouter);
 app.use("/api/review", reviewRouter);
+app.use("/api/book", bookRentRouter);
 
 export default app;
