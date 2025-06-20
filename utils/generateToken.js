@@ -3,7 +3,9 @@ import dotenv from "dotenv";
 dotenv.config();
 export const generateToken = async (payload) => {
   try {
-    const token = await jwt.sign(payload, process.env.SECRET_KEY);
+    const token = await jwt.sign(payload, process.env.SECRET_KEY, {
+      expiresIn: "2d",
+    });
     return token;
   } catch (error) {
     console.error("Token generation failed:", error);

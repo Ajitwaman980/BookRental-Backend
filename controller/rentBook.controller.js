@@ -56,4 +56,42 @@ export const myrentals = async (req, res) => {
 
 // return book
 
-const renturnBook = async (res, req) => {};
+export const renturnBook = async (req, res) => {
+  try {
+    const { totalCostPaid } = req.body;
+
+    const rentRecord = req.rentbook;
+
+    // check payment
+    const book = await bookmodel.findById(rentRecord.rentBookID._id);
+
+    if (!book) {
+      return res.json({ message: "something went werong..." });
+    }
+    const expectedCost = book.pricePerDay * rentRecord.rentalDays;
+
+    // payment
+    const totalPaid = rentRecord.totalCostPaid + totalCostPaid;
+    // condition
+    if (totalPaid < expectedCost) {
+      return res.status(400).json({
+        message: `Insufficient payment. Paid total: ₹${totalPaid}, Expected: ₹${expectedCost}`,
+      });
+    }
+
+    if (rentRecord.returned) {
+      return res.status(400).json({ message: "Book already returned." });
+    }
+    rentRecord.totalCostPaid = totalCostPaid;
+    rentRecord.returned = true;
+    rentRecord.returnDate = new Date();
+    await rentRecord.save();
+
+    res.json({ message: "Book returned successfully.", rentRecord });
+    // returned: {
+    //
+  } catch (error) {
+    console.log("error in return book ");
+    res.json({ error: error });
+  }
+};

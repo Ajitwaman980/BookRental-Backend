@@ -31,7 +31,9 @@ export const Newuser = async (req, res) => {
     }
     //    cookies set
 
-    res.cookie("token", token);
+    res.cookie("token", token, {
+      maxAge: 24 * 60 * 60 * 1000,
+    });
     // response
     res.json({ message: "new user register", newuser, token });
   } catch (error) {
@@ -66,7 +68,9 @@ export const loginuser = async (req, res) => {
     if (!token) {
       return res.json({ error: "someting wrong" });
     }
-    res.cookie("token", token);
+    res.cookie("token", token, {
+      maxAge: 24 * 60 * 60 * 1000,
+    });
 
     res.json({ message: "login successfully", user, token });
   } catch (error) {
