@@ -1,6 +1,6 @@
-# Book Review API
+# Book Rental Backend
 
-A RESTful API built with Node.js, Express, and MongoDB to manage users, books, and reviews. Supports authentication, authorization, rate limiting, and CRUD operations.
+The Book Rental API is a production-grade RESTful backend built with Node.js, Express.js, and MongoDB. It provides a complete system for user authentication, book listing, and book rental management. Designed with real-world use cases in mind, this API simulates a scalable and secure online book rental platform
 
 ---
 
@@ -12,6 +12,7 @@ A RESTful API built with Node.js, Express, and MongoDB to manage users, books, a
 - Search books by title or author (case-insensitive, partial match)
 - Rate limiting to prevent DoS attacks
 - Middleware for authentication and authorization
+- Rent a book for a specific number of days
 
 ---
 
@@ -22,6 +23,7 @@ A RESTful API built with Node.js, Express, and MongoDB to manage users, books, a
 - MongoDB with Mongoose
 - JSON Web Tokens (JWT)
 - Middleware (Authentication, Authorization, Rate Limiting)
+- redis- caching data for better perfromance 
 
 ---
 
@@ -53,6 +55,15 @@ A RESTful API built with Node.js, Express, and MongoDB to manage users, books, a
 | POST   | `/api/review/newreview/:id`    | Create a review for a book   | Yes            | No              |
 | PUT    | `/api/review/updatereview/:id` | Update a review by ID        | Yes            | Yes             |
 | DELETE | `/api/review/deletereview/:id` | Delete a review by ID        | Yes            | Yes             |
+
+
+### Book Rental Api
+
+| Method | Endpoint                      | Description                   | Authentication | Ownership Check |
+|--------|--------------------------------|------------------------------|----------------|-----------------|
+| POST   | `/api/book/rent/:id`           |Rent a book                   | Yes            | No              |
+| GET    | `/api/book/rent/myrentals`     | View user's rental history   | Yes            | Yes             |
+| POST | `/api/book/rent/retrun/:id`      |Return a rented book          | Yes            | Yes             |
 
 ---
 
