@@ -8,7 +8,7 @@ export const isBookOwner = async (req, res, next) => {
       return res.status(404).json({ error: "Book not found" });
     }
 
-    if (book.author.toString() !== req.user.id) {
+    if (book.Owner.toString() !== req.user.id) {
       return res
         .status(403)
         .json({ error: "Not authorized to modify this book" });
