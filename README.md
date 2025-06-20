@@ -87,4 +87,6 @@ The Book Rental API is a production-grade RESTful backend built with Node.js, Ex
 
 
 ![Screenshot (381)](https://github.com/user-attachments/assets/c77ac10a-64de-412b-929b-32aa13bf8e7e)
+![Screenshot (422)](https://github.com/user-attachments/assets/dedb1cff-f28b-4aa0-ac71-e43e48f2d193)
+
 
