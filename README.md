@@ -2,6 +2,13 @@
 
 The Book Rental API is a production-grade RESTful backend built with Node.js, Express.js, and MongoDB. It provides a complete system for user authentication, book listing, and book rental management. Designed with real-world use cases in mind, this API simulates a scalable and secure online book rental platform
 
+## 📌 Problem Statement
+
+Many people have books they don’t use often. Others want to read those books without buying them.  
+This API lets users **share their books**, **search available books by city or title**, and **rent them for a small fee** — all through a secure and scalable backend.
+
+---
+
 ---
 
 ## Features
