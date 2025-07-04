@@ -1,6 +1,7 @@
 // book controller
 import { bookmodel } from "../model/book.model.js";
-
+import { redis } from "../config/redisconfig.js";
+import { json } from "express";
 // all bookes
 // add pagination
 export const allbooks = async (req, res) => {
@@ -11,6 +12,11 @@ export const allbooks = async (req, res) => {
     const limit = parseInt(req.query.limit) || 3;
     const skip = (page - 1) * limit;
 
+    const data = await redis.get("Bookdata");
+    if (data) {
+      console.log("hit the redis ..");
+      return res.send(data);
+    }
     //  to get data using find
     const allbookes = await bookmodel
       .find()
@@ -20,7 +26,14 @@ export const allbooks = async (req, res) => {
     if (!allbookes) {
       return res.json({ message: "No books found" });
     }
-
+    //  set the data in redis
+    await redis.set("Bookdata", JSON.stringify(allbookes), {
+      expiration: {
+        type: "EX",
+        value: 10,
+      },
+    });
+    console.log("set the data in redis ");
     res.json(allbookes);
   } catch (err) {
     console.error("Error fetching all books:", err);
@@ -40,7 +53,9 @@ export const newbook = async (req, res) => {
       isAvailable,
       price,
     } = req.body;
+    // delete the redis data
 
+    redis.del("Bookdata");
     const usrid = req.user.id;
 
     const newbook = new bookmodel({
@@ -97,6 +112,8 @@ export const updatebook = async (req, res) => {
       { title, description, price, pricePerDay, city, isAvailable },
       { new: true }
     );
+    // // delete the redis data
+    redis.del("Bookdata");
 
     if (!updatedbook) {
       return res.json({ message: "Book not found" });
@@ -117,6 +134,8 @@ export const deletebook = async (req, res) => {
     const bookid = req.params.id;
 
     const book = await bookmodel.findByIdAndDelete(bookid);
+    // delete the redis data
+    redis.del("Bookdata");
 
     if (!book) {
       return res.json({ message: "Book not found" });
